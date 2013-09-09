@@ -28,10 +28,10 @@ RUN ln -s /go/src/github.com/dotcloud/docker /docker
 RUN cd /docker && git checkout -b alexlarsson-device-mapper2 master && git pull https://github.com/alexlarsson/docker.git device-mapper2
 
 # Create Go cache with tag netgo
-RUN cd /docker; go test -v . -i -ldflags '-linkmode external -extldflags "-static -Wl,--unresolved-symbols=ignore-in-shared-libs"' -tags netgo -a
+RUN cd /docker; go test -v . -i -ldflags '-w -linkmode external -extldflags "-static -Wl,--unresolved-symbols=ignore-in-shared-libs"' -tags netgo -a
 
 # Compile docker test binary
-RUN cd /docker; go test -v . -c -ldflags '-linkmode external -extldflags "-static -Wl,--unresolved-symbols=ignore-in-shared-libs"' -tags netgo
+RUN cd /docker; go test -v . -c -ldflags '-w -linkmode external -extldflags "-static -Wl,--unresolved-symbols=ignore-in-shared-libs"' -tags netgo
 
 # Compile/Install docker
-RUN cd /docker/docker; go build -ldflags '-linkmode external -extldflags "-static -Wl,--unresolved-symbols=ignore-in-shared-libs"' -tags netgo; cp docker /goroot/bin
+RUN cd /docker/docker; go build -ldflags '-w -linkmode external -extldflags "-static -Wl,--unresolved-symbols=ignore-in-shared-libs"' -tags netgo; cp docker /goroot/bin
